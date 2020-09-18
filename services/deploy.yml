@@ -1,0 +1,56 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: <deployment_name>
+  labels:
+    app: <app_name>
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: <app_name>
+  template:
+    metadata:
+      labels:
+        app: <app_name>
+    spec:
+      containers:
+        - name: <container_name>
+          image: <image>:<tag>
+          imagePullPolicy: Always
+          ports:
+          - containerPort: 3000
+      imagePullSecrets:
+        - name: <secret_name>
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: <service_name>
+spec:
+  selector:
+    app: <app_name>
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: <ingress_name>
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+    - host: <domain>
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: <service_name>
+              servicePort: 3000
