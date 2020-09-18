@@ -51,6 +51,15 @@ If you're just testing out k8s and are on a budget, there's a couple things you 
 
 The next step is to add a DNS rule that points your domain to the IP address of the single k8s node
 
+# TLS / Let's Encrypt / Cert-Manager
+- Install the CustomResourceDefinitions and cert-manager itself:
+  - `kubectl create namespace cert-manager`
+  - `helm repo add jetstack https://charts.jetstack.io`
+  - `helm repo update`
+  - `helm install cert-manager jetstack/cert-manager --namespace cert-manager --version v1.0.1 --set installCRDs=true`
+  - `kubectl create -f tls/staging_issuer.yaml`
+  - `kubectl create -f tls/prod_issuer.yaml`
+
 # Deploying a Service
 
 - Clone the files within `services` and tailor them with the details of your service
@@ -58,6 +67,12 @@ The next step is to add a DNS rule that points your domain to the IP address of 
   - `build`: builds your service's docker image and pushes it to your registry
   - `deploy`: deploys your service to k8s
   - `bd`: builds, pushes and deploys
+- Certificates can take awhile, you can see progress with:
+  - `kubectl describe ingress`
+  - `kubectl describe certificate`
+
+## References
+- [DO Tutorial](https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nginx-ingress-with-cert-manager-on-digitalocean-kubernetes)
 
 # Helpful Tips
 - Interactive Bash in a Pod:
