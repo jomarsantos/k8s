@@ -70,6 +70,7 @@ The next step is to add a DNS rule that points your domain to the IP address of 
 - Certificates can take awhile, you can see progress with:
   - `kubectl describe ingress`
   - `kubectl describe certificate`
+  - `kubectl describe challenges`
 
 ## References
 - [DO Tutorial](https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nginx-ingress-with-cert-manager-on-digitalocean-kubernetes)
