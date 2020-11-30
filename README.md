@@ -51,6 +51,9 @@ If you're just testing out k8s and are on a budget, there's a couple things you 
 
 The next step is to add a DNS rule that points your domain to the IP address of the single k8s node
 
+You may have to also update any firewall rules and allow access to port 80/443:
+`doctl compute firewall create --inbound-rules="protocol:tcp,ports:80,address:0.0.0.0/0,address:::/0 protocol:tcp,ports:443,address:0.0.0.0/0,address:::/0" --tag-names=k8s:CLUSTER_UUID --name=k8s-extra-mycluster`
+
 # TLS / Let's Encrypt / Cert-Manager
 - Install the CustomResourceDefinitions and cert-manager itself:
   - `kubectl create namespace cert-manager`
